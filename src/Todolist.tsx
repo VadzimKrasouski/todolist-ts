@@ -17,19 +17,19 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-    let [title, setTitle] = useState('')
+    let [newTaskTitle, setNewTaskTitle] = useState('')
 
     const addTask = () => {
-        props.addTask(title);
-        setTitle('');
+        props.addTask(newTaskTitle);
+        setNewTaskTitle('');
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        setNewTaskTitle(e.currentTarget.value)
     };
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
+        if (e.key === 'Enter') {
             addTask();
         }
     }
@@ -42,17 +42,17 @@ export function Todolist(props: PropsType) {
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input value={title}
+                <input value={newTaskTitle}
                        onChange={onChangeHandler}
                        onKeyPress={onKeyPressHandler}/>
                 <button onClick={addTask}>+</button>
             </div>
             <ul>
                 {props.tasks.map(t => {
-                    const onClickHandler = () => props.removeTask(t.id)
+                    const onRemoveHandler = () => props.removeTask(t.id)
                     return <li key={t.id}>
                         <input type='checkbox' checked={t.isDone}/> <span>{t.title}
-                        <button onClick={onClickHandler}>x</button></span>
+                        <button onClick={onRemoveHandler}>x</button></span>
                     </li>
                 })
                 }
