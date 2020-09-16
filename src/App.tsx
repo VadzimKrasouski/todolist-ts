@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
+import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
@@ -8,7 +8,10 @@ type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
+}
 
+type TaskStateType = {
+    [key: string]: Array<TaskType>
 }
 
 function App() {
@@ -20,7 +23,7 @@ function App() {
         {id: todolistId2, title: 'What to buy', filter: 'all'},
     ]);
 
-    let [tasks, setTasks] = useState({
+    let [tasks, setTasks] = useState<TaskStateType>({
         [todolistId1]: [
             {id: v1(), title: 'react', isDone: true},
             {id: v1(), title: 'js', isDone: false},
@@ -50,13 +53,15 @@ function App() {
 
     function removeTask(id: string, todolistId: string) {
         let todolistTasks = tasks[todolistId];
-        tasks[todolistId] = todolistTasks.filter(t => t.id != id)
+        tasks[todolistId] = todolistTasks.filter(t => t.id !== id)
         setTasks({...tasks});
     }
 
-    /*function changeFilter(value: FilterValuesType) {
-        setFilter(value);
-    }*/
+    function removeTodolist(todolistId: string) {
+        setTodolists(todolists.filter(tl => tl.id !== todolistId));
+        delete tasks[todolistId];
+        setTasks({...tasks});
+    }
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId);
@@ -65,7 +70,6 @@ function App() {
             setTodolists([...todolists]);
         }
     }
-
 
     return (
         <div className="App">
@@ -87,7 +91,7 @@ function App() {
                         tasks={tasksForTodolist}
                         filter={tl.filter}
                         changeFilter={changeFilter}
-
+                        removeTodolist={removeTodolist}
                         addTask={addTask}
                         removeTask={removeTask}
                         changeStatus={changeStatus}
