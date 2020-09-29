@@ -1,12 +1,19 @@
+/*
 .App {
   padding: 30px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+.container {
+  display: flex;
+}
+.todolist {
+  margin: 20px;
 }
 
-.App > div {
-  margin-right: 50px;
-}
+
 
 .error {
   border: red 1px solid;
@@ -18,7 +25,7 @@
 
 .active-filter {
   background-color: aquamarine;
-}
+}*/
 
 .is-done {
   opacity: 0.5;
